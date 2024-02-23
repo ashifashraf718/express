@@ -1,7 +1,11 @@
 const router=require('express').Router()
 const User=require('../model/userSchema')
+const crypto=require("crypto-js")
+
+
 router.post('/signup',async(req,res)=>{
     console.log("Req.body",req.body);
+    console.log(process.env.passwordSec);
     try{
         const newData=new User({
             Username:req.body.name,
@@ -9,7 +13,7 @@ router.post('/signup',async(req,res)=>{
             Mob:req.body.mob,
             Address:req.body.address,
             Pin:req.body.pin,
-            Password:req.body.password
+            Password:crypto.AES.encrypt(req.body.password,process.env.passwordSec).toString()
         })
         const saveData=await newData.save()
         console.log("savadata",saveData);
@@ -60,6 +64,27 @@ router.get("/queryData",async (req,res)=>{
         res.status(200).json(dataBaseData)
     } catch (error) {
         res.status(500).json(error.message)
+    }
+})
+
+router.put("/updateData/:id",async (req,res)=>{
+    try {
+        const updatedData=await User.findByIdAndUpdate(req.params.id,{
+            $set:{Username:req.body.name,...req.body}
+        },{new:true})
+        res.status(200).json(updatedData)
+    } catch (error) {
+        res.status(500).json(error.message)
+    }
+})
+
+
+router.delete("/deleteData/:id",async(req,res)=>{
+    try{
+        await User.findByIdAndDelete(req.params.id)
+        res.status(200).json("deleted")
+    }catch(err){
+        res.status(500).json(err.message)
     }
 })
 
