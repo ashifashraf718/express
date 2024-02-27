@@ -35,15 +35,15 @@ router.get("/getData",async (req,res)=>{
     }
 })
 
-// router.get("/fetchData",async (req,res)=>{
-//     try {
-//         const dataBaseData=await User.find()
-//         console.log("databasedata",dataBaseData);
-//         res.status(200).json(dataBaseData)
-//     } catch (error) {
-//         res.status(500).json(error.message)
-//     }
-// })
+router.get("/fetchData",async (req,res)=>{
+    try {
+        const dataBaseData=await User.find()
+        console.log("databasedata",dataBaseData);
+        res.status(200).json(dataBaseData)
+    } catch (error) {
+        res.status(500).json(error.message)
+    }
+})
 
 // router.get("/getData/:id",async (req,res)=>{
 //     console.log("data by id",req.params.id);
@@ -87,6 +87,8 @@ router.delete("/deleteData/:id",async(req,res)=>{
         res.status(500).json(err.message)
     }
 })
+
+
 
 
 module.exports=router

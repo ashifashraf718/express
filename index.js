@@ -1,9 +1,11 @@
 const express=require('express')
 const app=express()
 const mongoose=require('mongoose')
+const cors=require("cors")
 
 const dotenv=require('dotenv')
 dotenv.config()
+app.use(cors())
 
 const  UserRouter=require('./Router/Auth')
 const LoginRouter=require('./Router/Login')
@@ -16,6 +18,7 @@ mongoose.connect("mongodb+srv://ashifashraf718:ashif098@cluster0.qck0rsd.mongodb
 }).catch((err)=>{
   console.log(err.message); 
 })
+
 app.use(express.json())
 app.use('/data',UserRouter)
 app.use('/api',LoginRouter)
