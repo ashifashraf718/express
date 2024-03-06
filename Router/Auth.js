@@ -25,7 +25,7 @@ router.post('/signup',async(req,res)=>{
 })
 
 
-router.get("/getData",async (req,res)=>{
+router.get("/getOneData",async (req,res)=>{
     try {
         const dataBaseData=await User.findOne({Email:req.body.email})
         console.log("databasedata",dataBaseData);
@@ -45,16 +45,16 @@ router.get("/fetchData",async (req,res)=>{
     }
 })
 
-// router.get("/getData/:id",async (req,res)=>{
-//     console.log("data by id",req.params.id);
-//     try {
-//         const dataBaseData=await User.findById(req.params.id)
-//         console.log("databasedata",dataBaseData);
-//         res.status(200).json(dataBaseData)
-//     } catch (error) {
-//         res.status(500).json(error.message)
-//     }
-// })
+router.get("/getData/:id",async (req,res)=>{
+    console.log("data by id",req.params.id);
+    try {
+        const dataBaseData=await User.findById(req.params.id)
+        console.log("databasedata",dataBaseData);
+        res.status(200).json(dataBaseData)
+    } catch (error) {
+        res.status(500).json(error.message)
+    }
+})
 
 router.get("/queryData",async (req,res)=>{
     console.log("query data",req.query);
@@ -67,9 +67,9 @@ router.get("/queryData",async (req,res)=>{
     }
 })
 
-router.put("/updateData/:id",async (req,res)=>{
+router.put("/updateData",async (req,res)=>{
     try {
-        const updatedData=await User.findByIdAndUpdate(req.params.id,{
+        const updatedData=await User.findByIdAndUpdate(req.query.id,{
             $set:{Username:req.body.name,...req.body}
         },{new:true})
         res.status(200).json(updatedData)
@@ -82,7 +82,7 @@ router.put("/updateData/:id",async (req,res)=>{
 router.delete("/deleteData/:id",async(req,res)=>{
     try{
         await User.findByIdAndDelete(req.params.id)
-        res.status(200).json("deleted")
+        res.status(200).json("deleted successfully")
     }catch(err){
         res.status(500).json(err.message)
     }

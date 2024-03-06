@@ -6,7 +6,6 @@ const jwt=require("jsonwebtoken")
 
 router.post("/login",async(req,res)=>{
 
-    console.log("---------------------------------");
     try {
         const findData=await user.findOne({Email:req.body.email})
         console.log("find data :",findData);
